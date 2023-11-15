@@ -21,7 +21,6 @@ jobs:
           - mongo_version: 5.0.20
             platforms: |-
               linux/amd64
-              linux/arm64
 
     steps:
     - uses: actions/checkout@v3
@@ -55,7 +54,7 @@ jobs:
           NUM_JOBS=2
           MONGO_VERSION=${{ matrix.mongo_version }}
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USER }}/mongo-wo-avx:${{ matrix.mongo_version }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/mongo-without-avx:${{ matrix.mongo_version }}
         labels: |
           maintainer=${{ github.repository_owner }}
           org.opencontainers.image.vendor=${{ github.repository_owner }}
