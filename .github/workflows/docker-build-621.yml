@@ -1,4 +1,4 @@
-name: build
+name: build 6.2.1
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
 
       - if: github.ref == 'refs/heads/main'
         name: Conditional(Set tag as `latest`)
-        run: echo "tag=l33tlamer/mongodb-without-avx:latest" >> $GITHUB_ENV
+        run: echo "tag=l33tlamer/mongodb-without-avx:6.2.1" >> $GITHUB_ENV
 
       - name: Free Disk Space (Ubuntu)
         uses: jlumbroso/free-disk-space@main
