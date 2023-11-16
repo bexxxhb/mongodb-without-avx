@@ -28,6 +28,27 @@ Build Info: {
     }
 }
 ````
+Example docker-compose.yml
+
+````
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: l33tlamer/mongodb-without-avx:latest
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb:/data/db
+    healthcheck:
+      test: mongo --norc --quiet --host=localhost --eval "db.runCommand('ping')" || exit 1
+      start_period: 300s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+````
 
 *The only purpose of this repo is to provide a Docker image.*  
 *For details on building MongoDB from source without AVX, please refer to the original repo [rnsc/mongodb-without-avx](https://github.com/rnsc/mongodb-without-avx).*
