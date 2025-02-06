@@ -17,6 +17,8 @@ services:
     env_file:
       - .env
     environment:
+      PUID: 1000
+      PGID: 1000
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}  
     healthcheck:
