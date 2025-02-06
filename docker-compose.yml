@@ -13,7 +13,7 @@ services:
     volumes:
       - ./data/db:/data/db/
       - ./data/logs:/var/log/mongodb/
-      - ./mongo/init-db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongo:/docker-entrypoint-initdb.d/mongo-init.js:ro
     env_file:
       - .env
     environment:
