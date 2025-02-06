@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  mongodb:
+    container_name: mongodb
+    hostname: mongodb
+    image: l33tlamer/mongodb-without-avx:latest
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    networks:
+      - mongodb_network
+    volumes:
+      - ./data/db:/data/db/
+      - ./data/logs:/var/log/mongodb/
+      - ./mongo/init-db.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}  
+    healthcheck:
+      test: mongo --norc --quiet --host=localhost --eval "db.runCommand('ping')" || exit 1
+      start_period: 300s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_SERVER: 'mongodb'
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
+    ports:
+      - 8081:8081
+    networks:
+      - mongodb_network
+    depends_on:
+      - mongodb
+
+networks:
+  mongodb_network:
+    driver: bridge
+    name: mongo-network
