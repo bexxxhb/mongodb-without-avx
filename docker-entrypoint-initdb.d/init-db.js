@@ -2,7 +2,7 @@ dbprod = db.getSiblingDB("showcompare-prod");
 
 dbprod.createUser({
     user: "scompProd",
-    pwd: "rqoKPi0Ept3$",
+    pwd: "rqoKPi0Ept3",
     roles: [
       {
         role: 'readWrite', 
